@@ -1,0 +1,15 @@
+<h1>Reviews Page</h1>
+
+<% reviews.forEach(function(review){ %>
+    <div>
+        <a href="/reviews/<%= review._id %>"><%= review.title %></a>
+    </div>
+<% }); %>
+
+<br>
+
+<a href="/reviews/new">Create New Reviews</a>
+
+<br>
+
+<a href="/">Go back Homepage</a>

@@ -1,0 +1,14 @@
+<h1><%= review.title %> Review</h1>
+
+<form action="/reviews/<%= review._id %>" method="POST">
+    <input type="text" name="author" placeholder="Author">
+    <input type="text" name="text" placeholder="Review">
+    <button>Submit</button>
+</form>
+
+<% review.comments.forEach(function(comment){ %> 
+    <p> Author: <%= comment.author %> </p>
+    <p> Comment: <%= comment.text %> </p>
+<% }) %> 
+
+<a href="/">Go back Homepage</a>
