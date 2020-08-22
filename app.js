@@ -95,7 +95,8 @@ app.post("/reviews/:id", function (req, res) {
         } else {
           foundReview.comments.push(comment);
           foundReview.save();
-          res.redirect("/reviews/" + req.params.id);
+          res.status(200).json(comment);
+          //   res.redirect("/reviews/" + req.params.id);
         }
       });
     }

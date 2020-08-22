@@ -33,7 +33,7 @@ function seedDB() {
               } else {
                 Comment.create(
                   {
-                    text: "This company is maybe a scam!",
+                    text: newlyCreatedReview.title + " is maybe a scam!",
                     author: "Homer",
                   },
                   function (err, comment) {
