@@ -6,6 +6,7 @@ var bodyParser = require("body-parser");
 var Comment = require("./models/comment");
 var Review = require("./models/review");
 var seedDB = require("./seeds");
+var whois = require("node-whois");
 
 seedDB();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,7 +39,15 @@ app.post("/reviews", function (req, res) {
   //   console.log("Post /reviews");
   //   console.log(req.body.title);
   var title = req.body.title.toLowerCase();
-  var newReview = { title: title };
+  var newReview = { title: title, score: 10 };
+  whois.lookup(title, function (err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      var patt = /Creation Date: ([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+      var result = data.match(patt);
+    }
+  });
   Review.findOne(newReview, function (err, foundReview) {
     if (err) {
       console.log(err);

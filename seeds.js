@@ -5,12 +5,15 @@ var Comment = require("./models/comment");
 var data = [
   {
     title: "Shopthelike.com",
+    score: 10,
   },
   {
     title: "Facebook.com",
+    score: 15,
   },
   {
     title: "google.com",
+    score: 20,
   },
 ];
 
