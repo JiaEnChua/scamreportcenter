@@ -6,14 +6,17 @@ var data = [
   {
     title: "Shopthelike.com",
     score: 10,
+    rating: 2,
   },
   {
     title: "Facebook.com",
     score: 15,
+    rating: 3,
   },
   {
     title: "google.com",
     score: 20,
+    rating: 5,
   },
 ];
 

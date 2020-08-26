@@ -39,15 +39,8 @@ app.post("/reviews", function (req, res) {
   //   console.log("Post /reviews");
   //   console.log(req.body.title);
   var title = req.body.title.toLowerCase();
-  var newReview = { title: title, score: 10 };
-  whois.lookup(title, function (err, data) {
-    if (err) {
-      console.log(err);
-    } else {
-      var patt = /Creation Date: ([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
-      var result = data.match(patt);
-    }
-  });
+  var newReview = { title: title };
+
   Review.findOne(newReview, function (err, foundReview) {
     if (err) {
       console.log(err);
@@ -55,13 +48,36 @@ app.post("/reviews", function (req, res) {
       if (foundReview != null) {
         res.status(200).json(foundReview);
       } else {
-        Review.create(newReview, function (err, newlyCreatedReview) {
+        whois.lookup(title, function (err, data) {
           if (err) {
             console.log(err);
           } else {
-            // console.log(newlyCreatedReview);
-            // res.redirect("/reviews");
-            res.status(200).json(newlyCreatedReview);
+            var patt = /Creation Date: ([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+            var result = data.match(patt);
+            var q = new Date();
+            var m = q.getMonth() - 6;
+            var d = q.getDay();
+            var y = q.getFullYear();
+
+            var date = new Date(y, m, d);
+
+            mydate = new Date(result[1]);
+            // console.log(date);
+            // console.log(mydate);
+
+            if (mydate <= date) {
+              newReview.score = 100;
+            } else {
+              newReview.score = 0;
+            }
+            Review.create(newReview, function (err, newlyCreatedReview) {
+              if (err) {
+                console.log(err);
+              } else {
+                // res.redirect("/reviews");
+                res.status(200).json(newlyCreatedReview);
+              }
+            });
           }
         });
       }
@@ -90,9 +106,11 @@ app.get("/reviews/:id", function (req, res) {
 app.post("/reviews/:id", function (req, res) {
   var text = req.body.text;
   var author = req.body.author;
+  var rating = req.body.rating;
   var newComment = {
     text: text,
     author: author,
+    rating: rating,
   };
   Review.findById(req.params.id, function (err, foundReview) {
     if (err) {
