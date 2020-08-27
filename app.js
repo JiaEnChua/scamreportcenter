@@ -19,9 +19,9 @@ mongoose.connect("mongodb://localhost/scamdoc", {
   useUnifiedTopology: true,
 });
 
-app.get("/", function (req, res) {
-  res.render("landing");
-});
+// app.get("/", function (req, res) {
+//   res.render("landing");
+// });
 
 app.get("/reviews", function (req, res) {
   Review.find({}, function (err, allReviews) {
@@ -51,6 +51,8 @@ app.post("/reviews", function (req, res) {
         whois.lookup(title, function (err, data) {
           if (err) {
             console.log(err);
+          } else if (data.includes("No match for domain")) {
+            res.status(404).send({ message: "Website Not Found" });
           } else {
             var patt = /Creation Date: ([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
             var result = data.match(patt);
@@ -71,7 +73,6 @@ app.post("/reviews", function (req, res) {
               if (err) {
                 console.log(err);
               } else {
-                // res.redirect("/reviews");
                 res.status(200).json(newlyCreatedReview);
               }
             });
@@ -82,9 +83,9 @@ app.post("/reviews", function (req, res) {
   });
 });
 
-app.get("/reviews/new", function (req, res) {
-  res.render("new");
-});
+// app.get("/reviews/new", function (req, res) {
+//   res.render("new");
+// });
 
 app.get("/reviews/:id", function (req, res) {
   Review.findById(req.params.id)
