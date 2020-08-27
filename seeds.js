@@ -5,18 +5,15 @@ var Comment = require("./models/comment");
 var data = [
   {
     title: "Shopthelike.com",
-    score: 10,
-    rating: 2,
+    score: 40,
   },
   {
-    title: "Facebook.com",
-    score: 15,
-    rating: 3,
+    title: "testing8822189.com",
+    score: 10,
   },
   {
     title: "google.com",
-    score: 20,
-    rating: 5,
+    score: 100,
   },
 ];
 
@@ -41,6 +38,7 @@ function seedDB() {
                   {
                     text: newlyCreatedReview.title + " is maybe a scam!",
                     author: "Homer",
+                    rating: 3,
                   },
                   function (err, comment) {
                     if (err) {

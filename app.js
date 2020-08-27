@@ -39,7 +39,7 @@ app.post("/reviews", function (req, res) {
   //   console.log("Post /reviews");
   //   console.log(req.body.title);
   var title = req.body.title.toLowerCase();
-  var newReview = { title: title };
+  var newReview = { title: title, score: 0 };
 
   Review.findOne(newReview, function (err, foundReview) {
     if (err) {
@@ -60,15 +60,12 @@ app.post("/reviews", function (req, res) {
             var y = q.getFullYear();
 
             var date = new Date(y, m, d);
-
             mydate = new Date(result[1]);
-            // console.log(date);
-            // console.log(mydate);
-
             if (mydate <= date) {
-              newReview.score = 100;
-            } else {
-              newReview.score = 0;
+              newReview.score += 50;
+            }
+            if (title.includes(".com")) {
+              newReview.score += 30;
             }
             Review.create(newReview, function (err, newlyCreatedReview) {
               if (err) {
